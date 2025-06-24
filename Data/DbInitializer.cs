@@ -72,9 +72,11 @@ namespace AccountManagementSystem.Data
         private async Task SeedSampleAccounts()
         {
             // Check if any accounts exist
-            var accountsExist = await DatabaseHelper.ExecuteScalarAsync<int>(
+            var result = await DatabaseHelper.ExecuteScalarAsync(
                 _context.Database.GetDbConnection(),
-                "SELECT COUNT(*) FROM ChartOfAccounts") > 0;
+                "SELECT COUNT(*) FROM ChartOfAccounts");
+
+            var accountsExist = Convert.ToInt32(result) > 0;
 
             if (!accountsExist)
             {
@@ -98,9 +100,11 @@ namespace AccountManagementSystem.Data
                         });
 
                     // Get the ID of the Assets account
-                    var assetsId = await DatabaseHelper.ExecuteScalarAsync<int>(
+                    var resultAssetsId = await DatabaseHelper.ExecuteScalarAsync(
                         _context.Database.GetDbConnection(),
                         "SELECT AccountId FROM ChartOfAccounts WHERE AccountCode = '1000'");
+
+                    var assetsId = Convert.ToInt32(resultAssetsId);
 
                     // Insert some sample accounts under Assets
                     await DatabaseHelper.ExecuteNonQueryAsync(
@@ -117,9 +121,12 @@ namespace AccountManagementSystem.Data
                             { "@UserId", userId }
                         });
 
-                    var currentAssetsId = await DatabaseHelper.ExecuteScalarAsync<int>(
+
+                    var resultCurrentAssetsId = await DatabaseHelper.ExecuteScalarAsync(
                         _context.Database.GetDbConnection(),
                         "SELECT AccountId FROM ChartOfAccounts WHERE AccountCode = '1100'");
+
+                    var currentAssetsId = Convert.ToInt32(resultCurrentAssetsId);
 
                     await DatabaseHelper.ExecuteNonQueryAsync(
                         _context.Database.GetDbConnection(),

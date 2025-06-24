@@ -31,7 +31,7 @@ namespace AccountManagementSystem.Utilities
             return await command.ExecuteNonQueryAsync();
         }
 
-        public static async Task<T> ExecuteScalarAsync<T>(DbConnection connection, string commandText, Dictionary<string, object> parameters = null)
+        public static async Task<object> ExecuteScalarAsync(DbConnection connection, string commandText, Dictionary<string, object> parameters = null)
         {
             await using var command = connection.CreateCommand();
             command.CommandText = commandText;
