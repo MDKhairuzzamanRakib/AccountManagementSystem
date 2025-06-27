@@ -1,0 +1,21 @@
+﻿@using Models
+@model AccountTreeItem
+
+<li>
+    <span>
+        @Model.AccountCode - @Model.AccountName
+        @if (!Model.IsActive)
+        {
+            <span class="badge bg-danger">Inactive</span>
+        }
+    </span>
+    @if (Model.Children != null && Model.Children.Count > 0)
+    {
+        <ul>
+            @foreach (var child in Model.Children)
+            {
+                <partial name="_AccountTreeNode" model="child" />
+            }
+        </ul>
+    }
+</li>

@@ -1,10 +1,71 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to Account Management System</h1>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="alert alert-success mt-4">
+            You have <strong>Admin</strong> privileges with full access to all modules.
+        </div>
+    }
+    else if (User.IsInRole("Accountant"))
+    {
+        <div class="alert alert-info mt-4">
+            You have <strong>Accountant</strong> privileges with access to accounts and vouchers.
+        </div>
+    }
+    else if (User.IsInRole("Viewer"))
+    {
+        <div class="alert alert-warning mt-4">
+            You have <strong>Viewer</strong> privileges with read-only access to accounts.
+        </div>
+    }
+
+    <div class="mt-5">
+        <div class="row">
+            @if (User.IsInRole("Admin") || User.IsInRole("Accountant") || User.IsInRole("Viewer"))
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Chart of Accounts</h5>
+                            <p class="card-text">Manage your chart of accounts and view the account hierarchy.</p>
+                            <a asp-page="/ChartOfAccounts/Index" class="btn btn-primary">Go to Accounts</a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (User.IsInRole("Admin") || User.IsInRole("Accountant"))
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Vouchers</h5>
+                            <p class="card-text">Create and manage journal, payment, and receipt vouchers.</p>
+                            <a asp-page="/Vouchers/Index" class="btn btn-primary">Go to Vouchers</a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">User Management</h5>
+                            <p class="card-text">Manage system users and their roles and permissions.</p>
+                            <a asp-page="/Admin/Users" class="btn btn-primary">Manage Users</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
