@@ -33,11 +33,11 @@ namespace AccountManagementSystem.Pages.Vouchers
         {
             var accounts = await _accountService.GetAllAccounts();
             Accounts = new SelectList(accounts, "AccountId", "AccountName");
+            VoucherViewModel.Accounts = accounts.ToList();
 
             // Initialize with empty details
             VoucherViewModel.Voucher.VoucherType = "JOURNAL";
             VoucherViewModel.Voucher.VoucherDate = DateTime.Today;
-            VoucherViewModel.Voucher.Details.Add(new VoucherDetail());
             VoucherViewModel.Voucher.Details.Add(new VoucherDetail());
         }
 
@@ -47,6 +47,7 @@ namespace AccountManagementSystem.Pages.Vouchers
             {
                 var accounts = await _accountService.GetAllAccounts();
                 Accounts = new SelectList(accounts, "AccountId", "AccountName");
+                VoucherViewModel.Accounts = accounts.ToList();
                 return Page();
             }
 
