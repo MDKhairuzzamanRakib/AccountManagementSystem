@@ -8,7 +8,7 @@ namespace AccountManagementSystem.Data
 {
     public interface IAccountRepository
     {
-        Task<int> CreateAccount(ChartOfAccount account, string userId);
+        Task<int> CreateAccount(ChartOfAccount account);
         Task UpdateAccount(ChartOfAccount account);
         Task DeleteAccount(int accountId);
         Task<ChartOfAccount> GetAccount(int accountId);
@@ -25,7 +25,7 @@ namespace AccountManagementSystem.Data
             _context = context;
         }
 
-        public async Task<int> CreateAccount(ChartOfAccount account, string userId)
+        public async Task<int> CreateAccount(ChartOfAccount account)
         {
             var parameters = new DynamicParameters();
             parameters.Add("Action", "INSERT");
@@ -34,7 +34,7 @@ namespace AccountManagementSystem.Data
             parameters.Add("ParentAccountId", account.ParentAccountId);
             parameters.Add("AccountType", account.AccountType);
             parameters.Add("IsActive", account.IsActive);
-            parameters.Add("UserId", userId);
+            parameters.Add("UserId", account.CreatedBy);
 
             using (var connection = _context.CreateConnection())
             {
