@@ -1,0 +1,44 @@
+﻿@model AccountManagementSystem.Models.VoucherViewModel
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Account</th>
+            <th>Debit Amount</th>
+            <th>Credit Amount</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Voucher.Details.Count; i++)
+        {
+            <tr>
+                @* <td>
+                    <select asp-for="Voucher.Details[i].AccountId" asp-items="Model.Accounts" class="form-control">
+                        <option value="">-- Select Account --</option>
+                    </select>
+                    <span asp-validation-for="Voucher.Details[i].AccountId" class="text-danger"></span>
+                </td> *@
+                <td>
+                    <input asp-for="Voucher.Details[i].DebitAmount" class="form-control" />
+                    <span asp-validation-for="Voucher.Details[i].DebitAmount" class="text-danger"></span>
+                </td>
+                <td>
+                    <input asp-for="Voucher.Details[i].CreditAmount" class="form-control" />
+                    <span asp-validation-for="Voucher.Details[i].CreditAmount" class="text-danger"></span>
+                </td>
+                <td>
+                    <input asp-for="Voucher.Details[i].Description" class="form-control" />
+                    <span asp-validation-for="Voucher.Details[i].Description" class="text-danger"></span>
+                </td>
+                <td>
+                    @if (i > 0)
+                    {
+                        <button type="button" class="btn btn-sm btn-danger remove-detail" data-index="@i">Remove</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

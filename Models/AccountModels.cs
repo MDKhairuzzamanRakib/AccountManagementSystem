@@ -26,8 +26,8 @@ namespace AccountManagementSystem.Models
     public class Voucher
     {
         public int VoucherId { get; set; }
-        public string VoucherType { get; set; }
-        public string VoucherNumber { get; set; }
+        public string? VoucherType { get; set; }
+        public string? VoucherNumber { get; set; }
         public DateTime VoucherDate { get; set; }
         public string Reference { get; set; }
         public string Notes { get; set; }
@@ -39,8 +39,8 @@ namespace AccountManagementSystem.Models
     public class VoucherDetail
     {
         public int VoucherDetailId { get; set; }
-        public int VoucherId { get; set; }
-        public int AccountId { get; set; }
+        public int? VoucherId { get; set; }
+        public int? AccountId { get; set; }
         public decimal DebitAmount { get; set; }
         public decimal CreditAmount { get; set; }
         public string Description { get; set; }
