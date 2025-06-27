@@ -3,17 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AccountManagementSystem</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - Account Management System</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AccountManagementSystem.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">AccountManagementSystem</a>
+                <a class="navbar-brand" asp-area="" asp-page="/Index">Account Management</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,12 +21,46 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="accountsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+                                    Accounts
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="accountsDropdown">
+                                    <li><a class="dropdown-item" asp-page="/ChartOfAccounts/Index">Chart of Accounts</a></li>
+                                    <li><a class="dropdown-item" asp-page="/ChartOfAccounts/TreeView">Account Tree</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="vouchersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+                                    Vouchers
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="vouchersDropdown">
+                                    <li><a class="dropdown-item" asp-page="/Vouchers/JournalVoucher">Journal Voucher</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Vouchers/PaymentVoucher">Payment Voucher</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Vouchers/ReceiptVoucher">Receipt Voucher</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-page="/Vouchers/Index">All Vouchers</a></li>
+                                </ul>
+                            </li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+                                        Admin
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        <li><a class="dropdown-item" asp-page="/Admin/Users">Manage Users</a></li>
+                                        <li><a class="dropdown-item" asp-page="/Admin/Roles">Manage Roles</a></li>
+                                    </ul>
+                                </li>
+                            }
+                        }
                     </ul>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
@@ -39,7 +73,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - AccountManagementSystem - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year - Account Management System
         </div>
     </footer>
 
