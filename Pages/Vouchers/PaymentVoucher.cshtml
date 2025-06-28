@@ -7,12 +7,13 @@
 <h2>@ViewData["Title"]</h2>
 
 <form method="post" id="voucherForm">
+    @Html.AntiForgeryToken()
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="row mb-3">
         <div class="col-md-5">
             <label asp-for="VoucherViewModel.Voucher.VoucherType" class="form-label"></label>
-            <input asp-for="VoucherViewModel.Voucher.VoucherType" class="form-control" />
+            <input asp-for="VoucherViewModel.Voucher.VoucherType" class="form-control" readonly />
             <span asp-validation-for="VoucherViewModel.Voucher.VoucherType" class="text-danger"></span>
         </div>
         <div class="col-md-3">
@@ -57,19 +58,33 @@
         $(document).ready(function() {
             // Add new detail row
             $('#addDetail').click(function() {
-                $.post('?handler=AddDetail', $('#voucherForm').serialize())
-                    .done(function(response) {
+                $.ajax({
+                    url: '?handler=AddDetail',
+                    type: 'POST',
+                    headers: {
+                        "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    data: $('#voucherForm').serialize(),
+                    success: function(response) {
                         $('#voucherDetails').html(response);
-                    });
+                    }
+                });
             });
 
             // Remove detail row
             $(document).on('click', '.remove-detail', function() {
                 var index = $(this).data('index');
-                $.post('?handler=RemoveDetail&index=' + index, $('#voucherForm').serialize())
-                    .done(function(response) {
+                $.ajax({
+                    url: '?handler=RemoveDetail&index=' + index,
+                    type: 'POST',
+                    headers: {
+                        "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    data: $('#voucherForm').serialize(),
+                    success: function(response) {
                         $('#voucherDetails').html(response);
-                    });
+                    }
+                });
             });
         });
     </script>
