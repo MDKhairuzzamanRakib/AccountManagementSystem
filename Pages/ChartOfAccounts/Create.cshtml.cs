@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace AccountManagementSystem.Pages.ChartOfAccounts
@@ -22,6 +23,7 @@ namespace AccountManagementSystem.Pages.ChartOfAccounts
         [BindProperty]
         public ChartOfAccount Account { get; set; }
 
+
         public SelectList ParentAccounts { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
@@ -33,6 +35,7 @@ namespace AccountManagementSystem.Pages.ChartOfAccounts
 
         public async Task<IActionResult> OnPostAsync()
         {
+            Account.CreatedBy = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!ModelState.IsValid)
             {
                 var accounts = await _accountService.GetAllAccounts();
@@ -40,7 +43,7 @@ namespace AccountManagementSystem.Pages.ChartOfAccounts
                 return Page();
             }
 
-            await _accountService.CreateAccount(Account, User.Identity.Name);
+            await _accountService.CreateAccount(Account);
             return RedirectToPage("./Index");
         }
     }

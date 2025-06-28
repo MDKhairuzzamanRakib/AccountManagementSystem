@@ -7,7 +7,7 @@ namespace AccountManagementSystem.Services
 {
     public interface IAccountService
     {
-        Task<int> CreateAccount(ChartOfAccount account, string userId);
+        Task<int> CreateAccount(ChartOfAccount account);
         Task UpdateAccount(ChartOfAccount account);
         Task DeleteAccount(int accountId);
         Task<ChartOfAccount> GetAccount(int accountId);
@@ -24,7 +24,7 @@ namespace AccountManagementSystem.Services
             _accountRepository = accountRepository;
         }
 
-        public Task<int> CreateAccount(ChartOfAccount account, string userId) => _accountRepository.CreateAccount(account, userId);
+        public Task<int> CreateAccount(ChartOfAccount account) => _accountRepository.CreateAccount(account);
         public Task UpdateAccount(ChartOfAccount account) => _accountRepository.UpdateAccount(account);
         public Task DeleteAccount(int accountId) => _accountRepository.DeleteAccount(accountId);
         public Task<ChartOfAccount> GetAccount(int accountId) => _accountRepository.GetAccount(accountId);

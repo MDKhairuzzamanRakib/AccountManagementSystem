@@ -1,0 +1,91 @@
+﻿@page
+@model PaymentVoucherModel
+@{
+    ViewData["Title"] = "Payment Voucher";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" id="voucherForm">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row mb-3">
+        <div class="col-md-5">
+            <label asp-for="VoucherViewModel.Voucher.VoucherType" class="form-label"></label>
+            <input asp-for="VoucherViewModel.Voucher.VoucherType" class="form-control" readonly />
+            <span asp-validation-for="VoucherViewModel.Voucher.VoucherType" class="text-danger"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="VoucherViewModel.Voucher.VoucherDate" class="form-label"></label>
+            <input asp-for="VoucherViewModel.Voucher.VoucherDate" class="form-control" type="date" />
+            <span asp-validation-for="VoucherViewModel.Voucher.VoucherDate" class="text-danger"></span>
+        </div>
+        <div class="col-md-5">
+            <label asp-for="VoucherViewModel.Voucher.Reference" class="form-label"></label>
+            <input asp-for="VoucherViewModel.Voucher.Reference" class="form-control" />
+            <span asp-validation-for="VoucherViewModel.Voucher.Reference" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="VoucherViewModel.Voucher.Notes" class="form-label"></label>
+            <input asp-for="VoucherViewModel.Voucher.Notes" class="form-control" />
+            <span asp-validation-for="VoucherViewModel.Voucher.Notes" class="text-danger"></span>
+        </div>
+    </div>
+
+    <h5>Payment Details</h5>
+
+    <div id="voucherDetails">
+        <partial name="_VoucherDetailRows" model="Model.VoucherViewModel" />
+    </div>
+
+    <div class="mb-3">
+        <button type="button" id="addDetail" class="btn btn-sm btn-secondary">Add Line</button>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Save Voucher" class="btn btn-primary" />
+        <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+            // Add new detail row
+            $('#addDetail').click(function() {
+                $.ajax({
+                    url: '?handler=AddDetail',
+                    type: 'POST',
+                    headers: {
+                        "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    data: $('#voucherForm').serialize(),
+                    success: function(response) {
+                        $('#voucherDetails').html(response);
+                    }
+                });
+            });
+
+            // Remove detail row
+            $(document).on('click', '.remove-detail', function() {
+                var index = $(this).data('index');
+                $.ajax({
+                    url: '?handler=RemoveDetail&index=' + index,
+                    type: 'POST',
+                    headers: {
+                        "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    data: $('#voucherForm').serialize(),
+                    success: function(response) {
+                        $('#voucherDetails').html(response);
+                    }
+                });
+            });
+        });
+    </script>
+}
