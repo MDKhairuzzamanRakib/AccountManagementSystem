@@ -3,11 +3,10 @@ When someone runs the project for the first time, three roles will be created (A
 After running this project, we need to log in first. The user can also register.
 
 Login Page:
-![image](https://github.com/user-attachments/assets/0c5c10e3-76f6-498c-ae11-2b1f1dac559b)
+![image](https://github.com/user-attachments/assets/3d6c2593-496a-4d07-871f-d793606b55f4)
 
 Register Page:
-![image](https://github.com/user-attachments/assets/724f783a-0dba-4b23-b007-4014d226dbaf)
-
+![image](https://github.com/user-attachments/assets/3d3a3f39-f390-4d7c-be33-c4ccbd0cd950)
 
 After Logging in, we can see the Home page, and the user can navigate through pages based on their User Role. The admin can also manage the User Role.
 
