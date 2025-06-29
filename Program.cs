@@ -75,6 +75,17 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapGet("/", async context =>
+{
+    if (!context.User.Identity?.IsAuthenticated ?? true)
+    {
+        context.Response.Redirect("/Account/Login");
+    }
+    else
+    {
+        context.Response.Redirect("/Index");
+    }
+});
 app.MapRazorPages();
 
 // Seed initial roles and admin user
